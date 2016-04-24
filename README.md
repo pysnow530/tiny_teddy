@@ -13,31 +13,31 @@
 
 2. Add a nginx server config to use tiny teddy.
 
-    lua_package_path '$TINY_TEDDY_SRC_PATH/?.lua;;';
+        lua_package_path '$TINY_TEDDY_SRC_PATH/?.lua;;';
 
-    server {
-        listen 8000;
-        server_name tiny.teddy;
-    
-        access_log $LOG_PATH/access.log;
-        error_log $LOG_PATH/error.log debug;
+        server {
+            listen 8000;
+            server_name tiny.teddy;
 
-        location / {
-            content_by_lua_file $PROJECT_PATH/index.lua;
+            access_log $LOG_PATH/access.log;
+            error_log $LOG_PATH/error.log debug;
+
+            location / {
+                content_by_lua_file $PROJECT_PATH/index.lua;
+            }
         }
-    }
 
-3. Place `src/tiny_teddy.lua` to lua_package_path and use it in `$PROJECT_PATH/index.lua`.
+3. Ensure `src/tiny_teddy.lua` is in the lua_package_path, use it in `$PROJECT_PATH/index.lua`.
 
-    local framework = require ('tiny_teddy')
-    local teddy = framework:start()
-    
-    function hello_handler(req)
-      teddy:set_header('Content-Type', 'text/plain')
-      teddy:print('hello, world!')
-      return 200
-    end
+        local framework = require ('tiny_teddy')
+        local teddy = framework:start()
 
-    teddy:route('/hello/', hello_handler)
-    
-4. Start server and visit tiny.teddy:8000/hello/.
+        function hello_handler(req)
+          teddy:set_header('Content-Type', 'text/plain')
+          teddy:print('hello, world!')
+          return 200
+        end
+
+        teddy:route('/hello/', hello_handler)
+
+4. Start server and visit `tiny.teddy:8000/hello/`.
