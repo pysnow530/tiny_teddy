@@ -1,1 +1,0 @@
-tiny teddy's logs

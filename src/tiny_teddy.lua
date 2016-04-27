@@ -13,9 +13,9 @@ function _m.start()
 
       local uri_matched = self:_match_uri(uri)
       if uri_matched then
-        http_code = handler(self.req)
-        if http_code ~= nil then
-          ngx.exit(http_code)
+        status_code = handler(self.req)
+        if status_code ~= nil then
+          ngx.exit(status_code)
         end
       end
 
@@ -34,6 +34,10 @@ function _m.start()
       self:log(self.DEBUG, '<<< exit teddy.print')
     end,
 
+    exit = function (self, status_code)
+      ngx.exit(status_code)
+    end,
+
     ERR = ngx.ERR,
     WARN = ngx.WARN,
     INFO = ngx.INFO,
@@ -46,16 +50,16 @@ function _m.start()
       self:log(self.DEBUG, '>>> enter teddy._init')
 
       self.req = {
-        headers = ngx.req.get_headers(),
-        method = ngx.req.get_method(),
-        uri = ngx.var.uri
+        HEADERS = ngx.req.get_headers(),
+        METHOD = ngx.req.get_method(),
+        URI = ngx.var.uri
       }
-      if self.req.method == 'GET' then
-        self.req.get = ngx.req.get_uri_args()
+      if self.req.METHOD == 'GET' then
+        self.req.GET = ngx.req.get_uri_args()
       end
-      if self.req.method == 'POST' then
+      if self.req.METHOD == 'POST' then
         ngx.req.read_body()
-        self.req.post = ngx.req.get_post_args()
+        self.req.POST = ngx.req.get_post_args()
       end
       self:set_header('Content-Type', 'text/html')
 
@@ -71,7 +75,7 @@ function _m.start()
       if type(uri) == 'boolean' then
         return uri
       elseif type(uri) == 'string' then
-        return uri == self.req.uri
+        return uri == self.req.URI
       else
         self:_warn_unsupported_type('_match_uri', 2, type(uri))
         return false
