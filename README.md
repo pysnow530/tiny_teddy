@@ -9,8 +9,8 @@
 
 ### features
 
-* uri route supported
-* get and post args supported
+* uri route(string match, predicate function) supported
+* GET and POST args supported
 
 ### install
 
