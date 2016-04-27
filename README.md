@@ -22,7 +22,7 @@
 
         server {
             listen 8000;
-            server_name tiny.teddy;
+            server_name localhost;
 
             access_log /path/to/log/access.log;
             error_log /path/to/log/error.log debug;
@@ -44,4 +44,4 @@
         teddy:print(string.format('hello, %s!', username))
         teddy:exit(200)
 
-4. Start server and visit `tiny.teddy:8000/?username=yourname`.
+4. Start server and visit `localhost:8000/?username=yourname`.
