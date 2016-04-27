@@ -9,8 +9,8 @@
 
 ### features
 
-* uri route supported
-* get and post args supported
+* uri route(string match, boolean) supported
+* GET and POST args supported
 
 ### install
 
@@ -18,34 +18,30 @@
 
 2. Add a nginx server config to use tiny teddy.
 
-```
-lua_package_path 'path/to/tiny_teddy/src/?.lua;;';
+        lua_package_path 'path/to/tiny_teddy/src/?.lua;;';
 
-server {
-    listen 8000;
-    server_name tiny.teddy;
+        server {
+            listen 8000;
+            server_name tiny.teddy;
 
-    access_log /path/to/log/access.log;
-    error_log /path/to/log/error.log debug;
+            access_log /path/to/log/access.log;
+            error_log /path/to/log/error.log debug;
 
-    location / {
-        content_by_lua_file /path/to/project/index.lua;
-    }
-}
-```
+            location / {
+                content_by_lua_file /path/to/project/index.lua;
+            }
+        }
 
 3. Use `tiny_teddy` in `index.lua`.
 
-```lua
-local framework = require ('tiny_teddy')
-local teddy = framework:start()
+        local framework = require ('tiny_teddy')
+        local teddy = framework:start()
 
-local req = teddy.req
+        local req = teddy.req
 
-local username = req.GET['username'] or 'anonymous'
-teddy:set_header('Content-Type', 'text/plain')
-teddy:print(string.format('hello, %s!', username))
-teddy:exit(200)
-```
+        local username = req.GET['username'] or 'anonymous'
+        teddy:set_header('Content-Type', 'text/plain')
+        teddy:print(string.format('hello, %s!', username))
+        teddy:exit(200)
 
 4. Start server and visit `tiny.teddy:8000/?username=yourname`.
