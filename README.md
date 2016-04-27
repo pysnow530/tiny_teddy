@@ -9,7 +9,7 @@
 
 ### features
 
-* uri route(string match, predicate function) supported
+* uri route(string match, boolean) supported
 * GET and POST args supported
 
 ### install
