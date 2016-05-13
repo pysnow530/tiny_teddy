@@ -12,6 +12,10 @@
 * uri route(string match, boolean) supported
 * GET and POST args supported
 
+### TODOs
+
+* [ ] support regex route
+
 ### install
 
 1. Install [openresty](http://openresty.org/en/).
